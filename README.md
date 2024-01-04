@@ -1,6 +1,19 @@
 # ESP32BrewHA
 ESP32 Beer Brewing with ESPHome+Home Assistant
 
+# ESPHome Dashboard
+Here is an example dashboard from earlier prototype hardware
+![Home Assistant Dashboard](/HA/Dash.png)
+![History](/HA/History.png)
+
+# PCB
+The following PCB can be ordered from [JLCPCB.com](https://jlcpcb.com/) (or any other prototyping PCB company) using the files in the [PCB](/PCB) folder.
+![PCB](/PCB/3D_PCB_2024-01-04.png)
+
+# Schematic
+This is the schematic built using [EasyEDA Pro](https://pro.easyeda.com/), project is in the [/EasyEDA Pro Project](/EasyEDA%20Pro%20Project) folder.
+[PDF of the schematic can be viewed here](/Schematic/SCH_esp32%20brewpiless_2024-01-04.pdf)
+
 # Q & A
 What sensors does this board support?
 Dallas DS18B20B & RTD PT100 via a MAX31865 (change some coponent values to use PT1000)
