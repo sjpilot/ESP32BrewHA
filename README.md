@@ -19,7 +19,7 @@ What sensors does this board support?
 Dallas DS18B20B & RTD PT100 via a MAX31865 (change some coponent values to use PT1000)
 
 Why is there USB-C & Programming header?
-Previous prototype only used the Programming header with an ESP-PROG so USB-C was added untested and might not work. 
+Previous prototype only used the Programming header with an ESP-PROG so USB-C was added untested and might not work. UPDATE: USB-C does not work, programming header does. refer issues.
 
 What is the ATECC608A security chip for?
 Nothing, ESPHome does not currently support it. It is for my future & personal projects, eg Azure/AWS IOT using certificates etc.
@@ -37,6 +37,7 @@ RTD is for a 2 wire PT100 as found on some homebrewing equipment such as DigiBoi
 
 Issues:
 During testing of a previous prototype approx 1 in 10 values of the DS18B20 had a CRC error while two sensors were connected (1m wire). R12 may need to be decreased for additional sensors / wire length.
+USB-C does not work (see Github issues)
 
 Notes:
 When tuning PID loop, you may notice overshoot where the temperature keeps rising even after the element turns off. This is probably because the temperature sensor isn't making efficient contact with the thermowell so there's some delay before it heats to the liquid it's measuring.
