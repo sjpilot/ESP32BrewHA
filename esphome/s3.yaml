@@ -1,16 +1,29 @@
 esphome:
   name: s3
   friendly_name: S3
+  platformio_options:
+    board_build.flash_mode: dio #dio, dout, qio, qout, oio, oout
 
+
+# ESP32-S3-WROOM-1-N8R2 https://www.espressif.com/sites/default/files/documentation/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf
 esp32:
-  #board: esp32-s3-devkitc-1
-  board: adafruit_feather_esp32s3
+  board: esp32-s3-devkitc-1 # https://github.com/platformio/platform-espressif32/blob/develop/boards/esp32-s3-devkitc-1.json
+  variant: esp32s3
+  flash_size: 8MB
+
   framework:
     type: esp-idf
     version: recommended
 
+psram:
+  mode: quad
+  speed: 80MHz
+  
 # Enable logging
+# https://esphome.io/components/logger.html
 logger:
+  #level: debug
+  hardware_uart: UART0 # default for s3 is USB JTAG
 
 # Enable Home Assistant API
 api:
@@ -30,28 +43,31 @@ wifi:
     gateway: 192.168.0.1
     subnet: 255.255.255.0
 
-mdns:
-  disabled: true
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Test3 Fallback Hotspot"
+    password: "0JOXPwVf2EQJ"
+
+captive_portal:
 
 dallas:
   - pin: GPIO4
     update_interval: 10s
-  
+
+# i2c for max31865 RTD
 spi:
   miso_pin: GPIO39 #SDO
   mosi_pin: GPIO40 #SDI
   clk_pin: GPIO41
 
-
-
 # Individual sensors
 sensor:
   - platform: dallas
-    address: 0x7c0417c4042dff28
+    address: 0x074dc7d446b9d228
     name: "Test Temperature"
     id: tic101_pv
   - platform: dallas
-    address: 0xa00417c3f32aff28
+    address: 0xb62ac1d446cac528
     name: "Test Temperature2"
     id: tic102_pv
   - platform: pid
@@ -64,13 +80,14 @@ sensor:
     rtd_nominal_resistance: 100 Ω
 
 
+#Each GPIO can be either a Switch, PWM or sigma, not all at once.
 output:
   - platform: sigma_delta_output
     update_interval: 2s
     id: sd_heater_output
-
+    
     # Output to a pin
-    pin: GPIO5
+    pin: GPIO3 #GPIO5, use 3 as a dummy output
 
 
 # output:
@@ -80,10 +97,10 @@ output:
 #     period: 15s
 
 switch:
-  # - platform: gpio
-  #   pin: GPIO25
-  #   name: "Relay1"
-  #   id: relay1
+  - platform: gpio
+    pin: GPIO5
+    name: "Relay1"
+    id: relay1
   - platform: gpio
     pin: GPIO6
     name: "Relay2"
@@ -156,6 +173,7 @@ climate:
     #   kd_multiplier: 0.0   # derviative is turned off inside deadband
     #   deadband_output_averaging_samples: 15   # average the output over 15 samples within the deadband
 
+# for future ATECC608A, not part of ESPHOME
 i2c:
   sda: GPIO8
   scl: GPIO9
