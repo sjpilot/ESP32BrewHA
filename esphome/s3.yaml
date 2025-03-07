@@ -31,7 +31,8 @@ api:
     key: "NgqSWgZOxQb6WoVaKOfyuc525WuiCs7YMPoa07ZBgqg="
 
 ota:
-  password: "7c6d06cc2383899d107de43cb760117c"
+  - platform: esphome
+    password: "7c6d06cc2383899d107de43cb760117c"
 
 wifi:
   reboot_timeout: 0s # never reboot on loss of home assistant connection
@@ -39,7 +40,7 @@ wifi:
   password: !secret wifi_password
   # Optional manual IP
   manual_ip:
-    static_ip: 192.168.0.198
+    static_ip: 192.168.0.199
     gateway: 192.168.0.1
     subnet: 255.255.255.0
 
